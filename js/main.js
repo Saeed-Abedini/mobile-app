@@ -1,205 +1,67 @@
 $(document).ready(function () {
-  let RegisterUser = document.getElementById("register-user");
-  let RegisterUserChart = new Chart(RegisterUser, {
-    type: "line",
-    data: {
-      labels: ["", "", "", "", "", ""],
-      datasets: [
-        {
-          data: [15333, 21555, 18496, 24200, 10600, 15600],
-          backgroundColor: "transparent",
-          borderColor: "#fff",
-          borderWidth: 2,
-          pointBackgroundColor: "#fff",
-        },
-      ],
-    },
-    options: {
-      layout: {
-        padding: {
-          left: 5,
-          right: 5,
-        },
-      },
-      scales: {
-        yAxes: [
-          {
-            display: false,
-          },
-        ],
-        xAxes: [
-          {
-            display: false,
-          },
-        ],
-      },
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  let Comment = document.getElementById("comment");
-  let CommentChart = new Chart(Comment, {
-    type: "bar",
-    data: {
-      labels: ["", "", "", "", "", ""],
-      datasets: [
-        {
-          data: [15333, 21555, 18496, 24200, 10600, 15600],
-          backgroundColor: "#fff",
-          borderColor: "#fff",
-          borderWidth: 2,
-          pointBackgroundColor: "#fff",
-        },
-      ],
-    },
-    options: {
-      layout: {
-        padding: {
-          left: 5,
-          right: 5,
-        },
-      },
-      scales: {
-        yAxes: [
-          {
-            display: false,
-          },
-        ],
-        xAxes: [
-          {
-            display: false,
-          },
-        ],
-      },
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  let ShopUser = document.getElementById("shop-user");
-  let ShopUserChart = new Chart(ShopUser, {
-    type: "line",
-    data: {
-      labels: ["", "", "", "", "", ""],
-      datasets: [
-        {
-          data: [15333, 21555, 18496, 24200, 10600, 15600],
-          backgroundColor: "transparent",
-          borderColor: "#fff",
-          borderWidth: 2,
-          pointBackgroundColor: "#fff",
-        },
-      ],
-    },
-    options: {
-      layout: {
-        padding: {
-          left: 5,
-          right: 5,
-        },
-      },
-      scales: {
-        yAxes: [
-          {
-            display: false,
-          },
-        ],
-        xAxes: [
-          {
-            display: false,
-          },
-        ],
-      },
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  let ApproveComment = document.getElementById("approve-comment");
-  let ApproveCommentChart = new Chart(ApproveComment, {
-    type: "bar",
-    data: {
-      labels: ["", "", "", "", "", ""],
-      datasets: [
-        {
-          data: [15333, 21555, 18496, 24200, 10600, 15600],
-          backgroundColor: "#fff",
-          borderColor: "#fff",
-          borderWidth: 2,
-          pointBackgroundColor: "#fff",
-        },
-      ],
-    },
-    options: {
-      layout: {
-        padding: {
-          left: 5,
-          right: 5,
-        },
-      },
-      scales: {
-        yAxes: [
-          {
-            display: false,
-          },
-        ],
-        xAxes: [
-          {
-            display: false,
-          },
-        ],
-      },
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  let Online = document.getElementById("online");
-  let OnlineChart = new Chart(Online, {
-    type: "line",
-    data: {
-      labels: ["یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
-      datasets: [
-        {
-          data: [15333, 21555, 18496, 24200, 10600, 15600],
-          backgroundColor: "rgba(0,0,0,.4)",
-          borderColor: "#555",
-          borderWidth: 3,
-          pointBackgroundColor: "#333",
-        },
-      ],
-    },
-    options: {
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  resizeTemplate();
-  $(window).resize(resizeTemplate);
-
-  function resizeTemplate() {
-    if ($(window).width() <= 768) {
-      $("#sideBar").collapse("hide");
+  function menuscroll() {
+    let navmenu = $(".nav-menu");
+    if ($(window).scrollTop() > 50) {
+      navmenu.addClass("is-scrolling");
     } else {
-      $("#sideBar").collapse("show");
+      navmenu.removeClass("is-scrolling");
     }
   }
 
-  $("#sideBar").on("hide.bs.collapse", function (e) {
-    if (e.target == this) {
-      $("#main").removeClass("col-md-10");
-    }
+  menuscroll();
+  $(window).on("scroll", menuscroll);
+
+  let sideNav = $("#navbar-menu");
+  sideNav.on("show.bs.collapse", function () {
+    $(this).parents(".nav-menu").addClass("is-open");
   });
-  $("#sideBar").on("show.bs.collapse", function (e) {
-    if (e.target == this) {
-      $("#main").addClass("col-md-10");
-    }
+
+  sideNav.on("hide.bs.collapse", function () {
+    $(this).parents(".nav-menu").removeClass("is-open");
   });
+
+  $('#navbar-menu .navbar-nav a').on('click' , function(e) {
+    let target = $(this.hash);
+    if(target.length) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop : target.offset().top
+        },1000)
+    }
+})
+
+  let comments = $(".comments");
+  if (comments.length && $.fn.owlCarousel) {
+    comments.owlCarousel({
+      rtl: true,
+      nav: true,
+      items: 1,
+      dots: false,
+      navText: [
+        '<span class="ti-arrow-left"></span>',
+        '<span class="ti-arrow-right"></span>',
+      ],
+    });
+  }
+
+  let gallery = $(".img-gallery");
+  if (gallery.length && $.fn.owlCarousel) {
+    gallery.owlCarousel({
+      rtl: true,
+      nav: false,
+      items: 2,
+      dots: true,
+      center: true,
+      autoplay: true,
+      loop: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        768: {
+          items: 3,
+        },
+      },
+    });
+  }
 });
